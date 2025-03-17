@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sistema de Inventario</title>
+  <link 
+    href="https://unpkg.com/tabulator-tables@5.4.3/dist/css/tabulator.min.css" 
+    rel="stylesheet"
+  />
+  <script type="module" defer src="./dist/app.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #f9f9f9; }
+    .container { display: flex; min-height: 100vh; }
+    .sidebar { width: 200px; background: #333; color: #fff; padding: 1rem; }
+    .sidebar h2 { margin-top: 0; }
+    .sidebar button { width: 100%; margin: 0.5rem 0; padding: 0.5rem; background: #444; color: #fff; border: none; cursor: pointer; text-align: left; }
+    .sidebar button.active { background: #666; }
+    .main-content { flex: 1; padding: 1rem; background: #fff; }
+    .form-section { margin: 1rem 0; border: 1px solid #ccc; padding: 1rem; }
+    .form-section label { display: block; margin: 0.5rem 0 0.2rem; }
+    .form-section input, .form-section select { width: 100%; padding: 0.4rem; margin-bottom: 0.5rem; }
+    .action-buttons button { margin-right: 0.5rem; }
+  </style>
+</head>
+<body x-data="appData()" x-init="init()">
+  <div class="container">
+    <div class="sidebar">
+      <h2>Sistema de Inventario</h2>
+      <button :class="{'active': currentTab === 'productos'}" @click="currentTab = 'productos'">
+        Productos
+      </button>
+      <button :class="{'active': currentTab === 'colecciones'}" @click="currentTab = 'colecciones'">
+        Colecciones
+      </button>
+      <button :class="{'active': currentTab === 'transacciones'}" @click="currentTab = 'transacciones'">
+        Transacciones
+      </button>
+    </div>
+
+    <div class="main-content">
+
+      <!-- Sección Productos -->
+      <div x-show="currentTab === 'productos'">
+        <h2>Productos</h2>
+        <button @click="toggleFormProducto()">
+          Crear Producto
+        </button>
+
+        <!-- Formulario para crear o editar Producto -->
+        <div x-show="mostrarFormProducto" class="form-section">
+          <h3 x-text="editandoProducto ? 'Editar Producto' : 'Nuevo Producto'"></h3>
+          <label>Nombre</label>
+          <input type="text" x-model="formProducto.nombre">
+          <label>Precio</label>
+          <input type="number" x-model="formProducto.precio">
+          <label>Cantidad</label>
+          <input type="number" x-model="formProducto.cantidad">
+
+          <button 
+            x-show="!editandoProducto" 
+            @click="agregarProducto(); mostrarFormProducto = false;">
+            Agregar Producto
+          </button>
+
+          <button 
+            x-show="editandoProducto" 
+            @click="guardarCambiosProducto(); mostrarFormProducto = false;">
+            Guardar Cambios
+          </button>
+        </div>
+
+        <div id="tablaProductos"></div>
+      </div>
+
+      <div x-show="currentTab === 'colecciones'">
+        <h2>Colecciones</h2>
+        <button @click="toggleFormColeccion()">
+          Crear Coleccion
+        </button>
+
+        <div x-show="mostrarFormColeccion" class="form-section">
+          <h3 x-text="editandoColeccion ? 'Editar Colección' : 'Nueva Colección'"></h3>
+          <label>Nombre</label>
+          <input type="text" x-model="formColeccion.nombre">
+          <label>Responsable</label>
+          <input type="text" x-model="formColeccion.responsable">
+
+          <button 
+            x-show="!editandoColeccion" 
+            @click="agregarColeccion(); mostrarFormColeccion = false;">
+            Agregar Colección
+          </button>
+
+          <button 
+            x-show="editandoColeccion" 
+            @click="guardarCambiosColeccion(); mostrarFormColeccion = false;">
+            Guardar Cambios
+          </button>
+        </div>
+
+        <div id="tablaColecciones"></div>
+      </div>
+
+      <div x-show="currentTab === 'transacciones'">
+        <h2>Transacciones</h2>
+        <button @click="toggleFormTransaccion()">
+          Crear Transaccion
+        </button>
+
+        <div x-show="mostrarFormTransaccion" class="form-section">
+          <h3 x-text="editandoTransaccion ? 'Editar Transacción' : 'Nueva Transacción'"></h3>
+
+          <label>Colección Origen</label>
+          <select x-model="formTransaccion.coleccionOrigen">
+            <option value="">-- Selecciona --</option>
+            <template x-for="col in colecciones" :key="col.nombre">
+              <option :value="col.nombre" x-text="col.nombre"></option>
+            </template>
+          </select>
+
+          <label>Colección Destino</label>
+          <select x-model="formTransaccion.coleccionDestino">
+            <option value="">-- Selecciona --</option>
+            <template x-for="col in colecciones" :key="col.nombre">
+              <option :value="col.nombre" x-text="col.nombre"></option>
+            </template>
+          </select>
+
+          <label>Producto</label>
+          <select x-model="formTransaccion.producto">
+            <option value="">-- Selecciona --</option>
+            <template x-for="prod in productos" :key="prod.nombre">
+              <option :value="prod.nombre" x-text="prod.nombre"></option>
+            </template>
+          </select>
+
+          <label>Cantidad</label>
+          <input type="number" x-model="formTransaccion.cantidad">
+
+          <label>Fecha</label>
+          <input type="text" x-model="formTransaccion.fecha">
+
+          <button 
+            x-show="!editandoTransaccion" 
+            @click="agregarTransaccion(); mostrarFormTransaccion = false;">
+            Agregar Transacción
+          </button>
+
+          <button 
+            x-show="editandoTransaccion" 
+            @click="guardarCambiosTransaccion(); mostrarFormTransaccion = false;">
+            Guardar Cambios
+          </button>
+        </div>
+
+        <div id="tablaTransacciones"></div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="https://unpkg.com/tabulator-tables@5.4.3/dist/js/tabulator.min.js"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

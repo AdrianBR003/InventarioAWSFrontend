@@ -1,0 +1,71 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/colecciones";
+// GET 
+export function obtenerColecciones() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(API_URL);
+        if (!res.ok) {
+            throw new Error("Error GET Colecciones");
+        }
+        const data = yield res.json();
+        console.log("GET colecciones", data);
+        return data;
+    });
+}
+// POST 
+export function crearColeccion(coleccion) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(coleccion),
+        });
+        if (!res.ok) {
+            throw new Error("Error POST coleccion");
+        }
+        const data = yield res.json();
+        console.log("POST colecciones", data);
+        return data;
+    });
+}
+// DELETE 
+export function eliminarColeccion(coleccion) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(API_URL, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(coleccion),
+        });
+        if (!res.ok) {
+            throw new Error("Error DEETE coleccion");
+        }
+        const data = yield res.json();
+        console.log("DELETE colecciones", data);
+        return data;
+    });
+}
+// PUT 
+// POST 
+export function modificarColeccion(coleccion) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(API_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(coleccion),
+        });
+        if (!res.ok) {
+            throw new Error("Error PUT coleccion");
+        }
+        const data = yield res.json();
+        console.log("PUT colecciones", data);
+        return data;
+    });
+}
