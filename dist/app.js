@@ -36,6 +36,11 @@ window.appData = () => ({
     tablaTransacciones: null,
     init() {
         return __awaiter(this, void 0, void 0, function* () {
+            if (window.__appInitialized) {
+                console.warn("La aplicación ya ha sido inicializada.");
+                return;
+            }
+            window.__appInitialized = true;
             try {
                 const [dataProductos, dataColecciones, dataTransacciones] = yield Promise.all([
                     obtenerProductos(),
@@ -283,7 +288,7 @@ window.appData = () => ({
             this.productos = this.productos.filter((p) => p.id_producto !== producto.id_producto);
             if (this.tablaProductos) {
                 this.tablaProductos.replaceData(this.productos);
-                eliminarProductos(producto);
+                eliminarProductos(producto.id_producto);
                 console.log("Se ha eliminado el producto: ", producto);
             }
         }

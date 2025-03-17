@@ -63,6 +63,12 @@ window.appData = () => ({
 
   async init() {    
     
+    if ((window as any).__appInitialized) {
+      console.warn("La aplicación ya ha sido inicializada.");
+      return;
+    }
+    (window as any).__appInitialized = true;
+  
     try {
       const [dataProductos, dataColecciones, dataTransacciones] = await Promise.all([
         obtenerProductos(),
@@ -302,7 +308,7 @@ window.appData = () => ({
       this.productos = this.productos.filter((p: Producto) => p.id_producto !== producto.id_producto);
       if (this.tablaProductos) {
         this.tablaProductos.replaceData(this.productos);
-        eliminarProductos(producto); 
+        eliminarProductos(producto.id_producto); 
         console.log("Se ha eliminado el producto: ", producto); 
       }
     }

@@ -11,7 +11,7 @@ const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/transacc
 // GET 
 export function obtenerTransacciones() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL);
+        const res = yield fetch("http://localhost:8080/api/transacciones/all");
         if (!res.ok) {
             throw new Error("Error GET transacciones");
         }

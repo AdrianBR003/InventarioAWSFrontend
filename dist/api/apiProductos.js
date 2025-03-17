@@ -11,7 +11,7 @@ const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/producto
 // GET 
 export function obtenerProductos() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL);
+        const res = yield fetch("http://localhost:8080/api/productos/all");
         if (!res.ok) {
             throw new Error("Error GET productos");
         }
@@ -23,7 +23,7 @@ export function obtenerProductos() {
 // POST 
 export function crearProductos(producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/productos", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(producto),
@@ -37,25 +37,28 @@ export function crearProductos(producto) {
     });
 }
 // DELETE 
-export function eliminarProductos(producto) {
+/*
+    De forma provisional, todas las solicitudes envían la información en el body,
+    en vez de en el path. Como DELETE no debería de hacer esto, se obliga en el backend
+    a enviar así la peticion
+*/
+export function eliminarProductos(id_producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/productos", {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(producto),
+            body: JSON.stringify({ id_producto })
         });
         if (!res.ok) {
             throw new Error("Error DELETE Producto");
         }
-        const data = yield res.json();
-        console.log("DELETE productos", data);
-        return data;
+        return res.json();
     });
 }
 // PUT 
 export function modificarProductos(producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/productos", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(producto),

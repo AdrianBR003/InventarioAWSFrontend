@@ -3,7 +3,7 @@ const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/transacc
 // GET 
 
 export async function obtenerTransacciones(){
-    const res = await fetch(API_URL);
+    const res = await fetch("http://localhost:8080/api/transacciones/all");
     if(!res.ok){
         throw new Error("Error GET transacciones")
     }

@@ -11,7 +11,7 @@ const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/coleccio
 // GET 
 export function obtenerColecciones() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL);
+        const res = yield fetch("http://localhost:8080/api/colecciones/all");
         if (!res.ok) {
             throw new Error("Error GET Colecciones");
         }
@@ -23,7 +23,7 @@ export function obtenerColecciones() {
 // POST 
 export function crearColeccion(coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/colecciones", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(coleccion),
@@ -39,7 +39,7 @@ export function crearColeccion(coleccion) {
 // DELETE 
 export function eliminarColeccion(coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/colecciones", {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(coleccion),
@@ -56,7 +56,7 @@ export function eliminarColeccion(coleccion) {
 // POST 
 export function modificarColeccion(coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch("http://localhost:8080/api/colecciones", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(coleccion),

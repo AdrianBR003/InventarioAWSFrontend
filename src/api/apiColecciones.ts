@@ -3,7 +3,7 @@ const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/coleccio
 // GET 
 
 export async function obtenerColecciones() {
-    const res = await fetch(API_URL);
+    const res = await fetch("http://localhost:8080/api/colecciones/all");
     if (!res.ok) {
         throw new Error("Error GET Colecciones");
     }
@@ -17,7 +17,7 @@ export async function obtenerColecciones() {
 // POST 
 
 export async function crearColeccion(coleccion:any){
-    const res = await fetch(API_URL, {
+    const res = await fetch("http://localhost:8080/api/colecciones", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(coleccion),
@@ -37,7 +37,7 @@ export async function crearColeccion(coleccion:any){
 // DELETE 
 
 export async function eliminarColeccion(coleccion:any){
-    const res = await fetch(API_URL, {
+    const res = await fetch("http://localhost:8080/api/colecciones", {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(coleccion),
@@ -57,7 +57,7 @@ export async function eliminarColeccion(coleccion:any){
 // POST 
 
 export async function modificarColeccion(coleccion:any){
-    const res = await fetch(API_URL, {
+    const res = await fetch("http://localhost:8080/api/colecciones", {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(coleccion),
