@@ -7,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/productos";
+import { API_BASE_URL } from "./config.js";
 // GET 
 export function obtenerProductos() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/productos/all");
+        const res = yield fetch(API_BASE_URL + "/api/productos/all");
         if (!res.ok) {
             throw new Error("Error GET productos");
         }
@@ -23,7 +23,7 @@ export function obtenerProductos() {
 // POST 
 export function crearProductos(producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/productos", {
+        const res = yield fetch(API_BASE_URL + "/api/productos", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(producto),
@@ -44,10 +44,9 @@ export function crearProductos(producto) {
 */
 export function eliminarProductos(id_producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/productos", {
+        const res = yield fetch(`${API_BASE_URL}/api/productos?id_producto=${id_producto}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_producto })
+            headers: { 'Content-Type': 'application/json' }
         });
         if (!res.ok) {
             throw new Error("Error DELETE Producto");
@@ -58,7 +57,7 @@ export function eliminarProductos(id_producto) {
 // PUT 
 export function modificarProductos(producto) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/productos", {
+        const res = yield fetch(API_BASE_URL + "/api/productos", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(producto),

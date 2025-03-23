@@ -1,9 +1,9 @@
-const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/productos";
+import { API_BASE_URL } from "./config.js";
 
 // GET 
 
 export async function obtenerProductos(){
-    const res = await fetch("http://localhost:8080/api/productos/all");
+    const res = await fetch(API_BASE_URL+"/api/productos/all");
     if(!res.ok){
         throw new Error("Error GET productos")
     }
@@ -15,7 +15,7 @@ export async function obtenerProductos(){
 
 // POST 
 export async function crearProductos(producto:any){
-    const res = await fetch("http://localhost:8080/api/productos", {
+    const res = await fetch(API_BASE_URL+"/api/productos", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(producto),
@@ -39,10 +39,9 @@ export async function crearProductos(producto:any){
 */
 
 export async function eliminarProductos(id_producto: string) {
-    const res = await fetch("http://localhost:8080/api/productos", {
+    const res = await fetch(`${API_BASE_URL}/api/productos?id_producto=${id_producto}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_producto }) 
+        headers: { 'Content-Type': 'application/json' }
     });
 
     if (!res.ok) {
@@ -52,10 +51,11 @@ export async function eliminarProductos(id_producto: string) {
     return res.json();
 }
 
+
 // PUT 
 
 export async function modificarProductos(producto:any){
-    const res = await fetch("http://localhost:8080/api/productos", {
+    const res = await fetch(API_BASE_URL+"/api/productos", {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(producto),

@@ -7,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/colecciones";
+import { API_BASE_URL } from "./config";
 // GET 
 export function obtenerColecciones() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/colecciones/all");
+        const res = yield fetch(API_BASE_URL + "/api/colecciones/all");
         if (!res.ok) {
             throw new Error("Error GET Colecciones");
         }
@@ -23,7 +23,7 @@ export function obtenerColecciones() {
 // POST 
 export function crearColeccion(coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/colecciones", {
+        const res = yield fetch(API_BASE_URL + "/api/colecciones", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(coleccion),
@@ -37,26 +37,23 @@ export function crearColeccion(coleccion) {
     });
 }
 // DELETE 
-export function eliminarColeccion(coleccion) {
+export function eliminarColeccion(id_coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/colecciones", {
+        const res = yield fetch(`${API_BASE_URL}/api/colecciones?id_coleccion=${id_coleccion}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(coleccion),
+            headers: { 'Content-Type': 'application/json' }
         });
         if (!res.ok) {
-            throw new Error("Error DEETE coleccion");
+            throw new Error("Error DELETE Producto");
         }
-        const data = yield res.json();
-        console.log("DELETE colecciones", data);
-        return data;
+        return res.json();
     });
 }
 // PUT 
 // POST 
 export function modificarColeccion(coleccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/colecciones", {
+        const res = yield fetch(API_BASE_URL + "/api/colecciones", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(coleccion),

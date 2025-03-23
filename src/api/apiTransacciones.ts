@@ -1,9 +1,9 @@
-const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/transacciones";
+import { API_BASE_URL } from "./config";
 
 // GET 
 
 export async function obtenerTransacciones(){
-    const res = await fetch("http://localhost:8080/api/transacciones/all");
+    const res = await fetch(API_BASE_URL+"/api/transacciones/all");
     if(!res.ok){
         throw new Error("Error GET transacciones")
     }
@@ -16,7 +16,7 @@ export async function obtenerTransacciones(){
 // POST 
 
 export async function crearTransaccion(transaccion:any){
-    const res = await fetch(API_URL, {
+    const res = await fetch(API_BASE_URL+"/api/transacciones", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(transaccion),
@@ -33,26 +33,23 @@ export async function crearTransaccion(transaccion:any){
 
 // DELETE 
 
-export async function eliminarTransaccion(transaccion:any){
-    const res = await fetch(API_URL, {
+export async function eliminarTransaccion(id_transaccion: string) {
+    const res = await fetch(`${API_BASE_URL}/api/transacciones?id_transaccion=${id_transaccion}`, {
         method: 'DELETE',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(transaccion),
+        headers: { 'Content-Type': 'application/json' }
     });
 
-    if(!res.ok){
-        throw new Error("Error POST transacciones")
+    if (!res.ok) {
+        throw new Error("Error DELETE Transaccion");
     }
 
-    const data = await res.json(); 
-    console.log("DEETE transacciones", data); 
-    return data;
+    return res.json();
 }
 
 // PUT 
 
 export async function modificarTransaccion(transaccion: any){
-    const res = await fetch(API_URL, {
+    const res = await fetch(API_BASE_URL+"/api/transacciones", {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(transaccion),

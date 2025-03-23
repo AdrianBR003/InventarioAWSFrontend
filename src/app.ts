@@ -318,7 +318,7 @@ window.appData = () => ({
       this.colecciones = this.colecciones.filter((c: Coleccion) => c.id_coleccion !== coleccion.id_coleccion);
       if (this.tablaColecciones) {
         this.tablaColecciones.replaceData(this.colecciones);
-        eliminarColeccion(coleccion) 
+        eliminarColeccion(coleccion.id_coleccion) 
         console.log("Se ha eliminado la coleccion: ", coleccion); 
       }
     }
@@ -328,7 +328,7 @@ window.appData = () => ({
       this.transacciones = this.transacciones.filter((t: Transaccion) => t.id_transaccion !== transaccion.id_transaccion);
       if (this.tablaTransacciones) {
         this.tablaTransacciones.replaceData(this.transacciones);
-        eliminarTransaccion(transaccion); 
+        eliminarTransaccion(transaccion.id_transaccion); 
         console.log("Se ha eliminado la transaccion: ", transaccion); 
       }
     }

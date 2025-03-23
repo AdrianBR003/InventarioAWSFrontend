@@ -7,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const API_URL = "https://35fjsu9dk2.execute-api.us-east-1.amazonaws.com/transacciones";
+import { API_BASE_URL } from "./config";
 // GET 
 export function obtenerTransacciones() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch("http://localhost:8080/api/transacciones/all");
+        const res = yield fetch(API_BASE_URL + "/api/transacciones/all");
         if (!res.ok) {
             throw new Error("Error GET transacciones");
         }
@@ -23,7 +23,7 @@ export function obtenerTransacciones() {
 // POST 
 export function crearTransaccion(transaccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch(API_BASE_URL + "/api/transacciones", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(transaccion),
@@ -37,25 +37,22 @@ export function crearTransaccion(transaccion) {
     });
 }
 // DELETE 
-export function eliminarTransaccion(transaccion) {
+export function eliminarTransaccion(id_transaccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch(`${API_BASE_URL}/api/transacciones?id_transaccion=${id_transaccion}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(transaccion),
+            headers: { 'Content-Type': 'application/json' }
         });
         if (!res.ok) {
-            throw new Error("Error POST transacciones");
+            throw new Error("Error DELETE Transaccion");
         }
-        const data = yield res.json();
-        console.log("DEETE transacciones", data);
-        return data;
+        return res.json();
     });
 }
 // PUT 
 export function modificarTransaccion(transaccion) {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(API_URL, {
+        const res = yield fetch(API_BASE_URL + "/api/transacciones", {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(transaccion),
